@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A simple 12-week meal and workout plan with customizable exercises and daily check-ins.">
   <meta name="theme-color" content="#080808">
-  <title>My 12-Week Meal & Workout Plan</title>
+  <title>Your 12-Week Meal & Workout Plan</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 <header class="hero">
   <div class="topline"><span>12 WEEKS</span><span>MEAL + MOVEMENT</span><span>01 — 12</span></div>
-  <div class="hero-title">GET<br><em>STRONGER.</em></div>
+  <div class="hero-title">PERSONALLY<br><em>FOR MIDE</em></div>
   <div class="hero-bottom">
-    <p>A simple 12-week plan for building consistency, eating well, and working toward a leaner waist.</p>
-    <a href="#plan">EXPLORE PLAN ↓</a>
+    <p>A simple 12-week plan for you.</p>
+    <a href="#plan">EXPLORE YOUR PLAN ↓</a>
   </div>
 </header>
 
@@ -23,7 +23,7 @@
     <div class="section-label">THE PLAN</div>
     <div>
       <h2>Eat well.<br>Move often.<br><em>Keep going.</em></h2>
-      <p class="intro-copy">The structure is here. The exact exercises are up to you. Pick movements you enjoy and have access to, then track them in the workout section each day.</p>
+      <p class="intro-copy">The workouts are up to you. Pick the exercises you enjoy based on the given session, and then track them in the workout section each day.</p>
     </div>
   </section>
 
@@ -45,11 +45,11 @@
     <div class="habit-layout">
       <div><h2>Small things<br><em>add up.</em></h2></div>
       <div class="habit-card">
-        <label><input type="checkbox" class="habit"> Protein with each meal</label>
+        <label><input type="checkbox" class="habit"> Protein with each meal (You need protein for real!)</label>
         <label><input type="checkbox" class="habit"> Mostly water today</label>
         <label><input type="checkbox" class="habit"> Workout or walk completed</label>
         <label><input type="checkbox" class="habit"> Fruit or vegetables with meals</label>
-        <label><input type="checkbox" class="habit"> 7–9 hours of sleep</label>
+        <label><input type="checkbox" class="habit"> 5-9 hours of sleep (Lol we both know this ain't happening)</label>
         <div class="progress"><div class="bar" id="bar"></div></div>
         <div class="progress-text" id="progressText">0 / 5 complete</div>
       </div>
@@ -59,14 +59,14 @@
 
 <footer>
   <div class="footer-title">12—W</div>
-  <p>*A general target, not a guarantee. Belly fat can't be spot-reduced. This plan is focused on overall fat loss, strength, movement, and consistency.</p>
+  <p>PS: This is a general target, not a guarantee.</p>
 </footer>
 
 <script>
 const meals=[
-["Greek yogurt + berries + 1 tbsp chia","Grilled chicken quinoa bowl with mixed vegetables","Apple + 1 tbsp peanut butter","Salmon, roasted potatoes, broccoli"],
-["2 eggs + whole-grain toast + fruit","Turkey avocado wrap + side salad","Cottage cheese + berries","Chicken fajita bowl with rice, peppers, salsa"],
-["Overnight oats with Greek yogurt, berries + chia","Tuna or chickpea salad sandwich + vegetables","Protein shake + banana","Lean beef or tofu stir-fry + rice + vegetables"],
+["Greek yogurt + berries + 1 tbsp chia","Grilled chicken rice bowl with mixed vegetables","Apple + 1 tbsp peanut butter","Salmon, roasted potatoes, broccoli"],
+["2 whole eggs + 2 egg whites, sautéed spinach","Turkey avocado wrap + side salad","Cottage cheese + berries","Chicken fajita bowl with rice, peppers, salsa"],
+["Overnight oats with Greek yogurt, berries + chia","Tuna or chickpea salad sandwich + vegetables","Protein shake + banana","Lean beef stir-fry + rice + vegetables"],
 ["Veggie omelet + toast","Chicken Caesar-style salad + whole-grain pita","Greek yogurt + fruit","Turkey meatballs + marinara + pasta + salad"],
 ["Greek yogurt bowl + banana + walnuts","Turkey/bean chili + side salad","Carrots + hummus","Shrimp or tofu tacos + cabbage slaw + avocado"],
 ["Oatmeal + protein-rich yogurt + berries","Grilled chicken sandwich + salad","Apple + cheese","Sheet-pan chicken, sweet potato + green beans"],
@@ -84,13 +84,13 @@ const mealMacros=[
 ];
 
 const routines=[
-["LOWER BODY","45–60 MIN","Lower-body focused session. Choose 4–6 movements you like. Finish with a short core block or easy walk."],
+["LOWER BODY","45–60 MIN","Lower-body focused session. Choose 4–6 movements you like. Finish with a light core work and stretch"],
 ["UPPER BODY","45–60 MIN","Upper-body focused session. Choose 4–6 movements that cover your major upper-body muscle groups."],
 ["ACTIVE RECOVERY","30–45 MIN","Easy cardio, a longer walk, mobility, stretching, or another low-intensity activity."],
-["FULL BODY","45–60 MIN","Full-body session. Pick 5–7 movements and keep the effort moderate to challenging."],
+["FULL BODY","45–60 MIN","Full-body session. Pick 5–7 movements and keep the effort a little challenging."],
 ["CARDIO + CORE","30–45 MIN","Moderate cardio followed by the core work you prefer. Keep the cardio at a pace you can sustain."],
 ["OPTIONAL WORKOUT","30–60 MIN","Your choice: repeat a favorite workout, try something new, or take another recovery day."],
-["REST","—","Full rest or an easy walk. No structured workout needed."]
+["REST","—","Full rest or an easy walk. No workout needed."]
 ];
 
 function macro(x){
