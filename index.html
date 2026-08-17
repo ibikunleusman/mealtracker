@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple 12-week meal and workout plan with customizable exercises and daily check-ins.">
+  <meta name="theme-color" content="#080808">
+  <title>My 12-Week Meal & Workout Plan</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="topline"><span>12 WEEKS</span><span>MEAL + MOVEMENT</span><span>01 — 12</span></div>
+  <div class="hero-title">GET<br><em>STRONGER.</em></div>
+  <div class="hero-bottom">
+    <p>A simple 12-week plan for building consistency, eating well, and working toward a leaner waist.</p>
+    <a href="#plan">EXPLORE PLAN ↓</a>
+  </div>
+</header>
+
+<main id="plan">
+  <section class="intro">
+    <div class="section-label">THE PLAN</div>
+    <div>
+      <h2>Eat well.<br>Move often.<br><em>Keep going.</em></h2>
+      <p class="intro-copy">The structure is here. The exact exercises are up to you. Pick movements you enjoy and have access to, then track them in the workout section each day.</p>
+    </div>
+  </section>
+
+  <section class="numbers">
+    <div><strong>03–04</strong><span>workout days / week</span></div>
+    <div><strong>7–10K</strong><span>steps / day</span></div>
+    <div><strong>0.5–1</strong><span>lb / week target*</span></div>
+  </section>
+
+  <section class="week-selector">
+    <div class="section-label">SELECT A WEEK</div>
+    <div class="week-list" id="tabs"></div>
+  </section>
+
+  <div id="weeks"></div>
+
+  <section class="habits">
+    <div class="section-label">DAILY CHECK-IN</div>
+    <div class="habit-layout">
+      <div><h2>Small things<br><em>add up.</em></h2></div>
+      <div class="habit-card">
+        <label><input type="checkbox" class="habit"> Protein with each meal</label>
+        <label><input type="checkbox" class="habit"> Mostly water today</label>
+        <label><input type="checkbox" class="habit"> Workout or walk completed</label>
+        <label><input type="checkbox" class="habit"> Fruit or vegetables with meals</label>
+        <label><input type="checkbox" class="habit"> 7–9 hours of sleep</label>
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <div class="progress-text" id="progressText">0 / 5 complete</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-title">12—W</div>
+  <p>*A general target, not a guarantee. Belly fat can't be spot-reduced. This plan is focused on overall fat loss, strength, movement, and consistency.</p>
+</footer>
+
+<script>
+const meals=[
+["Greek yogurt + berries + 1 tbsp chia","Grilled chicken quinoa bowl with mixed vegetables","Apple + 1 tbsp peanut butter","Salmon, roasted potatoes, broccoli"],
+["2 eggs + whole-grain toast + fruit","Turkey avocado wrap + side salad","Cottage cheese + berries","Chicken fajita bowl with rice, peppers, salsa"],
+["Overnight oats with Greek yogurt, berries + chia","Tuna or chickpea salad sandwich + vegetables","Protein shake + banana","Lean beef or tofu stir-fry + rice + vegetables"],
+["Veggie omelet + toast","Chicken Caesar-style salad + whole-grain pita","Greek yogurt + fruit","Turkey meatballs + marinara + pasta + salad"],
+["Greek yogurt bowl + banana + walnuts","Turkey/bean chili + side salad","Carrots + hummus","Shrimp or tofu tacos + cabbage slaw + avocado"],
+["Oatmeal + protein-rich yogurt + berries","Grilled chicken sandwich + salad","Apple + cheese","Sheet-pan chicken, sweet potato + green beans"],
+["Egg scramble + avocado toast + fruit","Leftover protein bowl + vegetables","Greek yogurt + berries","Salmon/chicken + rice + large mixed-vegetable serving"]
+];
+
+const mealMacros=[
+[[320,28,34,9],[510,45,48,14],[190,5,28,9],[560,39,46,23]],
+[[360,19,39,15],[500,35,45,19],[180,21,16,3],[540,43,55,15]],
+[[390,24,51,11],[450,30,48,13],[240,25,31,3],[560,39,57,17]],
+[[350,24,30,16],[470,42,38,15],[180,17,23,2],[560,39,61,17]],
+[[410,25,46,15],[470,38,45,14],[170,5,20,8],[520,34,51,19]],
+[[390,24,55,9],[480,40,45,14],[180,8,24,7],[520,43,47,14]],
+[[410,23,40,19],[480,38,47,14],[170,17,18,3],[550,42,48,18]]
+];
+
+const routines=[
+["LOWER BODY","45–60 MIN","Lower-body focused session. Choose 4–6 movements you like. Finish with a short core block or easy walk."],
+["UPPER BODY","45–60 MIN","Upper-body focused session. Choose 4–6 movements that cover your major upper-body muscle groups."],
+["ACTIVE RECOVERY","30–45 MIN","Easy cardio, a longer walk, mobility, stretching, or another low-intensity activity."],
+["FULL BODY","45–60 MIN","Full-body session. Pick 5–7 movements and keep the effort moderate to challenging."],
+["CARDIO + CORE","30–45 MIN","Moderate cardio followed by the core work you prefer. Keep the cardio at a pace you can sustain."],
+["OPTIONAL WORKOUT","30–60 MIN","Your choice: repeat a favorite workout, try something new, or take another recovery day."],
+["REST","—","Full rest or an easy walk. No structured workout needed."]
+];
+
+function macro(x){
+ return `<div class="macros"><span>${x[0]} CAL</span><span>P ${x[1]}G</span><span>C ${x[2]}G</span><span>F ${x[3]}G</span></div>`;
+}
+
+function exerciseEditor(day){
+ const key=`exerciseDay${day}`;
+ let saved=[];
+ try{saved=JSON.parse(localStorage.getItem(key)||"[]")}catch(e){}
+ const vals=[...Array(6)].map((_,i)=>saved[i]||"");
+ return `<div class="exercise-editor">
+   <div class="editor-head"><span>YOUR EXERCISES</span><small>Pick your own</small></div>
+   <div class="exercise-grid">
+   ${vals.map((v,i)=>`<input data-day="${day}" data-index="${i}" class="exercise-input" value="${v.replace(/"/g,'&quot;')}" placeholder="Exercise ${i+1}">`).join("")}
+   </div>
+   <button class="save-exercises" onclick="saveExercises(${day})">SAVE WORKOUT</button>
+   <span class="saved-msg" id="saved${day}"></span>
+ </div>`;
+}
+
+function weekHTML(w){
+ let rows="";
+ for(let d=0;d<7;d++){
+   const m=meals[d], mm=mealMacros[d], r=routines[d];
+   const total=mm.reduce((a,x)=>a+x[0],0), protein=mm.reduce((a,x)=>a+x[1],0);
+   rows+=`<article class="day">
+     <div class="day-number">${String(d+1).padStart(2,"0")}</div>
+     <div class="day-main">
+       <div class="day-head"><div><span class="eyebrow">DAY ${d+1}</span><h3>${r[0]}</h3></div><span class="duration">${r[1]}</span></div>
+       <p class="routine">${r[2]}</p>
+       ${exerciseEditor(d)}
+       <div class="meals">
+         <div class="meal-title">MEALS <span>~${total} CAL / ${protein}G PROTEIN</span></div>
+         ${m.map((food,i)=>`<div class="meal"><div><b>${["BREAKFAST","LUNCH","SNACK","DINNER"][i]}</b><p>${food}</p></div>${macro(mm[i])}</div>`).join("")}
+       </div>
+     </div>
+   </article>`;
+ }
+ return `<section class="week ${w===1?'active':''}" id="week${w}">
+   <div class="week-heading"><span>WEEK ${String(w).padStart(2,"0")}</span><h2>${w<5?"BUILD THE ROUTINE":w<9?"KEEP THE MOMENTUM":"FINISH STRONG"}</h2></div>
+   ${rows}
+ </section>`;
+}
+
+for(let w=1;w<=12;w++){
+ document.getElementById("tabs").innerHTML += `<button class="tab ${w===1?'active':''}" onclick="showWeek(${w})">${String(w).padStart(2,"0")}</button>`;
+ document.getElementById("weeks").innerHTML += weekHTML(w);
+}
+
+function showWeek(n){
+ document.querySelectorAll(".tab").forEach((b,i)=>b.classList.toggle("active",i===n-1));
+ document.querySelectorAll(".week").forEach(x=>x.classList.remove("active"));
+ document.getElementById("week"+n).classList.add("active");
+ window.scrollTo({top:document.querySelector(".week-selector").offsetTop-20,behavior:"smooth"});
+}
+
+function saveExercises(day){
+ const inputs=[...document.querySelectorAll(`.exercise-input[data-day="${day}"]`)];
+ localStorage.setItem(`exerciseDay${day}`,JSON.stringify(inputs.map(x=>x.value.trim())));
+ const msg=document.getElementById(`saved${day}`);
+ msg.textContent="SAVED";
+ setTimeout(()=>msg.textContent="",1500);
+}
+
+function updateProgress(){
+ const boxes=[...document.querySelectorAll(".habit")], done=boxes.filter(x=>x.checked).length;
+ document.getElementById("bar").style.width=(done/5*100)+"%";
+ document.getElementById("progressText").textContent=`${done} / 5 complete`;
+ localStorage.setItem("habits",JSON.stringify(boxes.map(x=>x.checked)));
+}
+document.querySelectorAll(".habit").forEach(x=>x.addEventListener("change",updateProgress));
+try{JSON.parse(localStorage.getItem("habits")||"[]").forEach((v,i)=>document.querySelectorAll(".habit")[i].checked=v);updateProgress()}catch(e){}
+</script>
+</body>
+<script src="assets/js/app.js"></script>
+</html>
